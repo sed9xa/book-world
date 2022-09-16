@@ -8,7 +8,6 @@ export default {};
 
 <style>
 .empty {
-  width: 285px;
   height: 280px;
   background-color: rgba(242, 242, 242, 1);
   border: 1px dashed #b0b2c1;

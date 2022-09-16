@@ -8,7 +8,7 @@
     </div>
   </nav>
   <main class="bookworld">
-    <div class="container">
+    <div class="bookworld__container">
       <header class="bookworld__title">В мире книг</header>
       <main class="bookworld__content">
         <section class="bookworld__cards">
@@ -22,13 +22,17 @@
         <section class="bookworld__answers">
           <div class="folklor__fields">
             <div class="folklor__fields-title">Жанры фольклора</div>
-            <empty-field v-for="book in books" :key="book.id"></empty-field>
+            <empty-field class="folklor__field" v-for="book in books" :key="book.id"></empty-field>
           </div>
           <div class="nofolklor__fields">
-            <div class="folklor__fields-title">Не являются жанрами фольклора</div>
+            <div class="nofolklor__fields-title">
+              Не являются жанрами фольклора
+            </div>
+            <empty-field class="folklor__field" v-for="book in books" :key="book.id"></empty-field>
           </div>
         </section>
       </main>
+      <my-button class="bookworld__check">Проверить</my-button>
     </div>
   </main>
 </template>
@@ -107,8 +111,9 @@ export default defineComponent({
 }
 .bookworld {
 }
-.container {
+.bookworld__container {
   width: 95%;
+  margin: auto;
 }
 .bookworld__title {
   background: linear-gradient(90deg, #3f8cff 0.06%, #60b9a6 99.94%);
@@ -120,6 +125,8 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 .bookworld__content {
   display: flex;
@@ -129,8 +136,55 @@ export default defineComponent({
   flex-wrap: wrap;
   display: flex;
   margin-top: 89px;
+  max-height: 865px;
+  justify-content: space-around;
 }
 .book__card {
   margin-bottom: 12px;
+}
+.bookworld__answers {
+  display: flex;
+  width: 50%;
+  justify-content: space-around;
+}
+.folklor__fields {
+  width: 285px;
+  display: flex;
+  flex-direction: column;
+}
+.folklor__field{
+  margin-bottom: 12px;
+}
+.folklor__fields-title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #183b59;
+  height: 44px;
+  margin-bottom: 20px;
+  margin-top: 25px;
+}
+.nofolklor__fields {
+  width: 285px;
+  display: flex;
+  flex-direction: column;
+}
+.nofolklor__fields-title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #183b59;
+  height: 44px;
+  margin-bottom: 20px;
+  margin-top: 25px;
+}
+.bookworld__check{
+  padding: 12px 52px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: left;
 }
 </style>
