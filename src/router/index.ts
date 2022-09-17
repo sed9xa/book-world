@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     // route level code-splitting
     // this generates a separate chunk (books.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "books" */ '../../public/booksView.vue')
+    component: () => import(/* webpackChunkName: "books" */ '../views/booksView.vue')
   }
 ]
 

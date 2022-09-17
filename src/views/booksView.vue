@@ -13,6 +13,7 @@
       <main class="bookworld__content">
         <section class="bookworld__cards">
           <book-card
+            @dragstart="onDragStart($event, book)"
             class="book__card"
             v-for="book in books"
             :key="book.id"
@@ -22,13 +23,29 @@
         <section class="bookworld__answers">
           <div class="folklor__fields">
             <div class="folklor__fields-title">Жанры фольклора</div>
-            <empty-field class="folklor__field" v-for="book in books" :key="book.id"></empty-field>
+            <empty-field
+              class="folklor__field"
+              v-for="field in folklorFields"
+              :key="field.id"
+              :fieldImg="field.imgSrc"
+              @drop="onDrop($event, field)"
+              @dragenter.prevent
+              @dragover.prevent
+            ></empty-field>
           </div>
           <div class="nofolklor__fields">
             <div class="nofolklor__fields-title">
               Не являются жанрами фольклора
             </div>
-            <empty-field class="folklor__field" v-for="book in books" :key="book.id"></empty-field>
+            <empty-field
+              class="folklor__field"
+              v-for="field in nofolklorFields"
+              :key="field.id"
+              :fieldImg="field.imgSrc"
+              @drop="onDrop($event, field)"
+              @dragenter.prevent
+              @dragover.prevent
+            ></empty-field>
           </div>
         </section>
       </main>
@@ -38,51 +55,96 @@
 </template>
 <script lang="ts">
 import BookCard from "@/components/bookCard.vue";
-import myButton from "../src/components/UI/myButton.vue";
+import myButton from "../components/UI/myButton.vue";
 import EmptyField from "@/components/emptyField.vue";
 import { defineComponent, reactive, ref, toRefs } from "vue";
 export default defineComponent({
   components: { myButton, BookCard, EmptyField },
   setup() {
-    const books = ref([
+    type Tbook = {
+      id: number;
+      name: string;
+      type: string;
+      imgSrc: string;
+    };
+    type Tfield = {
+      id: number;
+      imgSrc: string;
+      type: string;
+    };
+    const books = ref<Tbook[]>([
       {
         id: 1,
         name: "folkTales",
-        isFolklor: true,
+        type: "folklor",
         imgSrc: require("@/assets/images/tales.svg"),
       },
       {
         id: 2,
         name: "folkSongs",
-        isFolklor: true,
+        type: "folklor",
         imgSrc: require("@/assets/images/songs.svg"),
       },
       {
         id: 3,
         name: "piterPan",
-        isFolklor: false,
+        type: "nofolklor",
         imgSrc: require("@/assets/images/piterPan.svg"),
       },
       {
         id: 4,
         name: "proverbs",
-        isFolklor: true,
+        type: "folklor",
         imgSrc: require("@/assets/images/proverbs.svg"),
       },
       {
         id: 5,
         name: "motherland",
-        isFolklor: false,
+        type: "nofolklor",
         imgSrc: require("@/assets/images/motherland.svg"),
       },
       {
         id: 6,
+        type: "nofolklor",
         name: "childhood",
-        isFolklor: false,
         imgSrc: require("@/assets/images/childhood.svg"),
       },
     ]);
-    return { books };
+    const folklorFields = ref<Tfield[]>([
+      { id: 1, imgSrc: "", type: "folklor" },
+      { id: 2, imgSrc: "", type: "folklor" },
+      { id: 3, imgSrc: "", type: "folklor" },
+      { id: 4, imgSrc: "", type: "folklor" },
+      { id: 5, imgSrc: "", type: "folklor" },
+      { id: 6, imgSrc: "", type: "folklor" },
+    ]);
+    const nofolklorFields = ref<Tfield[]>([
+      { id: 1, imgSrc: "", type: "nofolklor" },
+      { id: 2, imgSrc: "", type: "nofolklor" },
+      { id: 3, imgSrc: "", type: "nofolklor" },
+      { id: 4, imgSrc: "", type: "nofolklor" },
+      { id: 5, imgSrc: "", type: "nofolklor" },
+      { id: 6, imgSrc: "", type: "nofolklor" },
+    ]);
+    const onDragStart = (event: DragEvent, book: Tbook) => {
+      console.log(book, event);
+      event.dataTransfer!.dropEffect = "move";
+      event.dataTransfer!.effectAllowed = "move";
+      event.dataTransfer!.setData("type", book.type);
+      event.dataTransfer!.setData("imgSrc", book.imgSrc);
+    };
+    const onDrop = (event: DragEvent, field: Tfield) => {
+      const bookImg = event.dataTransfer!.getData("imgSrc");
+      console.log("Dropped", bookImg);
+      console.log(field);
+      if (field.type === "folklor") {
+        const currentField = folklorFields.value.find(
+          (item: Tfield) => item.id === field.id
+        );
+        currentField!.imgSrc = bookImg
+      }
+    };
+    return { books, folklorFields, nofolklorFields, onDragStart, onDrop };
   },
 });
 </script>
@@ -152,7 +214,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
-.folklor__field{
+.folklor__field {
   margin-bottom: 12px;
 }
 .folklor__fields-title {
@@ -180,7 +242,7 @@ export default defineComponent({
   margin-bottom: 20px;
   margin-top: 25px;
 }
-.bookworld__check{
+.bookworld__check {
   padding: 12px 52px;
   margin-top: 32px;
   margin-bottom: 32px;

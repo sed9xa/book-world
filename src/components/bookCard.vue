@@ -1,5 +1,5 @@
 <template>
-  <div class="bookworld__card">
+  <div class="bookworld__card" draggable="true">
     <img
       class="bookworld__card-dots"
       src="../assets/images/dots.svg"
