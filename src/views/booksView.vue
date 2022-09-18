@@ -28,6 +28,7 @@
               v-for="field in folklorFields"
               :key="field.id"
               :fieldImg="field.imgSrc"
+              :fieldState="field.state"
               @drop="onDrop($event, field)"
               @dragenter.prevent
               @dragover.prevent
@@ -42,6 +43,7 @@
               v-for="field in nofolklorFields"
               :key="field.id"
               :fieldImg="field.imgSrc"
+              :fieldState="field.state"
               @drop="onDrop($event, field)"
               @dragenter.prevent
               @dragover.prevent
@@ -49,7 +51,7 @@
           </div>
         </section>
       </main>
-      <my-button class="bookworld__check">Проверить</my-button>
+      <my-button class="bookworld__check" @click="checkAnswers">Проверить</my-button>
     </div>
   </main>
 </template>
@@ -70,7 +72,9 @@ export default defineComponent({
     type Tfield = {
       id: number;
       imgSrc: string;
-      type: string;
+      ownType: string;
+      innerType: string;
+      state: string;
     };
     const books = ref<Tbook[]>([
       {
@@ -111,40 +115,120 @@ export default defineComponent({
       },
     ]);
     const folklorFields = ref<Tfield[]>([
-      { id: 1, imgSrc: "", type: "folklor" },
-      { id: 2, imgSrc: "", type: "folklor" },
-      { id: 3, imgSrc: "", type: "folklor" },
-      { id: 4, imgSrc: "", type: "folklor" },
-      { id: 5, imgSrc: "", type: "folklor" },
-      { id: 6, imgSrc: "", type: "folklor" },
+      {
+        id: 1,
+        imgSrc: "",
+        ownType: "folklor",
+        innerType: "",
+        state: "right",
+      },
+      {
+        id: 2,
+        imgSrc: "",
+        ownType: "folklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 3,
+        imgSrc: "",
+        ownType: "folklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 4,
+        imgSrc: "",
+        ownType: "folklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 5,
+        imgSrc: "",
+        ownType: "folklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 6,
+        imgSrc: "",
+        ownType: "folklor",
+        innerType: "",
+        state: "neutral",
+      },
     ]);
     const nofolklorFields = ref<Tfield[]>([
-      { id: 1, imgSrc: "", type: "nofolklor" },
-      { id: 2, imgSrc: "", type: "nofolklor" },
-      { id: 3, imgSrc: "", type: "nofolklor" },
-      { id: 4, imgSrc: "", type: "nofolklor" },
-      { id: 5, imgSrc: "", type: "nofolklor" },
-      { id: 6, imgSrc: "", type: "nofolklor" },
+      {
+        id: 1,
+        imgSrc: "",
+        ownType: "nofolklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 2,
+        imgSrc: "",
+        ownType: "nofolklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 3,
+        imgSrc: "",
+        ownType: "nofolklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 4,
+        imgSrc: "",
+        ownType: "nofolklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 5,
+        imgSrc: "",
+        ownType: "nofolklor",
+        innerType: "",
+        state: "neutral",
+      },
+      {
+        id: 6,
+        imgSrc: "",
+        ownType: "nofolklor",
+        innerType: "",
+        state: "neutral",
+      },
     ]);
     const onDragStart = (event: DragEvent, book: Tbook) => {
-      console.log(book, event);
+      console.log(book);
       event.dataTransfer!.dropEffect = "move";
       event.dataTransfer!.effectAllowed = "move";
       event.dataTransfer!.setData("type", book.type);
       event.dataTransfer!.setData("imgSrc", book.imgSrc);
     };
     const onDrop = (event: DragEvent, field: Tfield) => {
-      const bookImg = event.dataTransfer!.getData("imgSrc");
-      console.log("Dropped", bookImg);
       console.log(field);
-      if (field.type === "folklor") {
-        const currentField = folklorFields.value.find(
-          (item: Tfield) => item.id === field.id
-        );
-        currentField!.imgSrc = bookImg
-      }
+      const bookImg = event.dataTransfer!.getData("imgSrc");
+      const bookType = event.dataTransfer!.getData("type");
+      let currentList;
+      field.ownType === "folklor"
+        ? (currentList = folklorFields)
+        : (currentList = nofolklorFields);
+      const currentField = currentList.value.find(
+        (item: Tfield) => item.id === field.id
+      );
+      currentField!.imgSrc = bookImg;
+      currentField!.innerType = bookType;
     };
-    return { books, folklorFields, nofolklorFields, onDragStart, onDrop };
+    const checkAnswers = ():void =>{
+      for(let i = 0; i<=nofolklorFields.value.length; i++){
+        
+      }
+    }
+    return { books, folklorFields, nofolklorFields, onDragStart, onDrop, checkAnswers };
   },
 });
 </script>
@@ -170,8 +254,6 @@ export default defineComponent({
 .navbar__back-word {
   color: rgba(139, 215, 75, 1);
   margin-left: 8px;
-}
-.bookworld {
 }
 .bookworld__container {
   width: 95%;
