@@ -112,7 +112,7 @@ export default defineComponent({
         imgSrc: "",
         ownType: "folklor",
         innerType: "",
-        state: "right",
+        state: "neutral",
       },
       {
         id: 2,
@@ -194,14 +194,12 @@ export default defineComponent({
     ]);
 
     const onDragStart = (event: DragEvent, book: Tbook) => {
-      console.log(book);
       event.dataTransfer!.dropEffect = "move";
       event.dataTransfer!.effectAllowed = "move";
       event.dataTransfer!.setData("type", book.type);
       event.dataTransfer!.setData("imgSrc", book.imgSrc);
     };
     const onDrop = (event: DragEvent, field: Tfield) => {
-      console.log(field);
       const bookImg = event.dataTransfer!.getData("imgSrc");
       const bookType = event.dataTransfer!.getData("type");
       const currentField = bookFields.value.find(
@@ -211,7 +209,17 @@ export default defineComponent({
       currentField!.innerType = bookType;
     };
     const checkAnswers = (): void => {
-      for (let i = 0; i <= bookFields.value.length; i++) {}
+      for (let i = 0; i <= bookFields.value.length-1; i++) {
+        let currentItem = bookFields.value[i];
+        if (currentItem.innerType !== "") {
+          if (currentItem.ownType === currentItem.innerType) {
+            currentItem.state = "right";
+          } else if (currentItem.ownType !== currentItem.innerType) {
+            currentItem.state = "wrong";
+          }
+          
+        }
+      }
     };
     return {
       books,
@@ -290,14 +298,12 @@ export default defineComponent({
   grid-column-gap: 48px;
 }
 .book__field {
-  
 }
 .book__fields-titles {
   display: grid;
   grid-template-columns: repeat(2, 280px);
   grid-column-gap: 48px;
   justify-content: center;
-  
 }
 .folklor__fields-title,
 .nofolklor__fields-title {

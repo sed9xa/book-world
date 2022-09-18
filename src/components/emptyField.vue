@@ -1,6 +1,6 @@
 <template>
   <div
-    class="field border-l-red-600"
+    class="field"
     :style="{
       'background-image': 'url(' + fieldImg + ')',
       'background-repeat': 'no-repeat',
