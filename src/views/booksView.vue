@@ -21,26 +21,16 @@
           ></book-card>
         </section>
         <section class="bookworld__answers">
-          <div class="folklor__fields">
+          <div class="book__fields-titles">
             <div class="folklor__fields-title">Жанры фольклора</div>
-            <empty-field
-              class="folklor__field"
-              v-for="field in folklorFields"
-              :key="field.id"
-              :fieldImg="field.imgSrc"
-              :fieldState="field.state"
-              @drop="onDrop($event, field)"
-              @dragenter.prevent
-              @dragover.prevent
-            ></empty-field>
-          </div>
-          <div class="nofolklor__fields">
             <div class="nofolklor__fields-title">
               Не являются жанрами фольклора
             </div>
+          </div>
+          <div class="book__fields">
             <empty-field
-              class="folklor__field"
-              v-for="field in nofolklorFields"
+              class="book__field"
+              v-for="field in bookFields"
               :key="field.id"
               :fieldImg="field.imgSrc"
               :fieldState="field.state"
@@ -51,7 +41,9 @@
           </div>
         </section>
       </main>
-      <my-button class="bookworld__check" @click="checkAnswers">Проверить</my-button>
+      <my-button class="bookworld__check" @click="checkAnswers"
+        >Проверить</my-button
+      >
     </div>
   </main>
 </template>
@@ -59,7 +51,7 @@
 import BookCard from "@/components/bookCard.vue";
 import myButton from "../components/UI/myButton.vue";
 import EmptyField from "@/components/emptyField.vue";
-import { defineComponent, reactive, ref, toRefs } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   components: { myButton, BookCard, EmptyField },
   setup() {
@@ -114,7 +106,7 @@ export default defineComponent({
         imgSrc: require("@/assets/images/childhood.svg"),
       },
     ]);
-    const folklorFields = ref<Tfield[]>([
+    const bookFields = ref<Tfield[]>([
       {
         id: 1,
         imgSrc: "",
@@ -157,51 +149,50 @@ export default defineComponent({
         innerType: "",
         state: "neutral",
       },
-    ]);
-    const nofolklorFields = ref<Tfield[]>([
       {
-        id: 1,
+        id: 7,
         imgSrc: "",
         ownType: "nofolklor",
         innerType: "",
         state: "neutral",
       },
       {
-        id: 2,
+        id: 8,
         imgSrc: "",
         ownType: "nofolklor",
         innerType: "",
         state: "neutral",
       },
       {
-        id: 3,
+        id: 9,
         imgSrc: "",
         ownType: "nofolklor",
         innerType: "",
         state: "neutral",
       },
       {
-        id: 4,
+        id: 10,
         imgSrc: "",
         ownType: "nofolklor",
         innerType: "",
         state: "neutral",
       },
       {
-        id: 5,
+        id: 11,
         imgSrc: "",
         ownType: "nofolklor",
         innerType: "",
         state: "neutral",
       },
       {
-        id: 6,
+        id: 12,
         imgSrc: "",
         ownType: "nofolklor",
         innerType: "",
         state: "neutral",
       },
     ]);
+
     const onDragStart = (event: DragEvent, book: Tbook) => {
       console.log(book);
       event.dataTransfer!.dropEffect = "move";
@@ -213,22 +204,22 @@ export default defineComponent({
       console.log(field);
       const bookImg = event.dataTransfer!.getData("imgSrc");
       const bookType = event.dataTransfer!.getData("type");
-      let currentList;
-      field.ownType === "folklor"
-        ? (currentList = folklorFields)
-        : (currentList = nofolklorFields);
-      const currentField = currentList.value.find(
+      const currentField = bookFields.value.find(
         (item: Tfield) => item.id === field.id
       );
       currentField!.imgSrc = bookImg;
       currentField!.innerType = bookType;
     };
-    const checkAnswers = ():void =>{
-      for(let i = 0; i<=nofolklorFields.value.length; i++){
-        
-      }
-    }
-    return { books, folklorFields, nofolklorFields, onDragStart, onDrop, checkAnswers };
+    const checkAnswers = (): void => {
+      for (let i = 0; i <= bookFields.value.length; i++) {}
+    };
+    return {
+      books,
+      bookFields,
+      onDragStart,
+      onDrop,
+      checkAnswers,
+    };
   },
 });
 </script>
@@ -287,33 +278,28 @@ export default defineComponent({
   margin-bottom: 12px;
 }
 .bookworld__answers {
-  display: flex;
   width: 50%;
-  justify-content: space-around;
 }
-.folklor__fields {
-  width: 285px;
-  display: flex;
-  flex-direction: column;
+.book__fields {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 280px);
+  grid-template-rows: repeat(6, 280px);
+  grid-auto-flow: column;
+  grid-row-gap: 12px;
+  grid-column-gap: 48px;
 }
-.folklor__field {
-  margin-bottom: 12px;
+.book__field {
+  
 }
-.folklor__fields-title {
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
-  text-align: center;
-  color: #183b59;
-  height: 44px;
-  margin-bottom: 20px;
-  margin-top: 25px;
+.book__fields-titles {
+  display: grid;
+  grid-template-columns: repeat(2, 280px);
+  grid-column-gap: 48px;
+  justify-content: center;
+  
 }
-.nofolklor__fields {
-  width: 285px;
-  display: flex;
-  flex-direction: column;
-}
+.folklor__fields-title,
 .nofolklor__fields-title {
   font-weight: 600;
   font-size: 18px;
@@ -323,7 +309,9 @@ export default defineComponent({
   height: 44px;
   margin-bottom: 20px;
   margin-top: 25px;
+  width: 280px;
 }
+
 .bookworld__check {
   padding: 12px 52px;
   margin-top: 32px;

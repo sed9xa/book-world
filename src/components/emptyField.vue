@@ -41,7 +41,6 @@ export default defineComponent({
 
 <style>
 .field {
-  height: 280px;
   border-radius: 12px;
 }
 .empty {
