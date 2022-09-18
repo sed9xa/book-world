@@ -1,0 +1,68 @@
+@media (max-width: 1000px) {
+    .bookworld__container {
+      width: 100%;
+    }
+    .bookworld__content {
+      flex-direction: column;
+    }
+    .bookworld__answers {
+      width: 100%;
+    }
+    .bookworld__cards {
+      width: 100%;
+      margin-top: 20px;
+    }
+    .bookworld__card {
+      width: 15vw;
+      height: 15vw;
+    }
+    .bookworld__card-img {
+      height: 70%;
+      width: 70%;
+    }
+    .bookworld__card-dots {
+      margin: 0 0 0 20px;
+    }
+    .book__fields {
+      width: 100%;
+      grid-template: repeat(2, 15vw) / repeat(6, 15vw);
+      grid-column-gap: 12px;
+    }
+    .book__fields-titles {
+      grid-column-gap: 12px;
+    }
+    .folklor__fields-title, .nofolklor__fields-title{
+      font-size: 1em;
+    }
+     .folklor__fields-title{
+      text-align: right;
+      border-right: 2px #37474F solid;
+      padding-right: 5px;
+     }
+     .nofolklor__fields-title{
+      text-align: left;
+      border-left: 2px #37474F solid;
+      padding-left: 5px;
+     }
+    .bookworld__check {
+      margin: 30px auto;
+    }
+  }
+  @media (max-width: 850px) {
+    .folklor__fields-title, .nofolklor__fields-title{
+      font-size: 0.6em;
+    }
+    .bookworld__cards{
+      display: grid;
+      grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+      grid-row-gap: 12px;
+    }
+    .bookworld__card{
+      width: 25vw;
+      height: 25vw;
+    }
+    .bookworld__title{
+      height: 70px;
+      font-size: 25px;
+    }
+  }

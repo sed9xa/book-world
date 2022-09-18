@@ -209,7 +209,7 @@ export default defineComponent({
       currentField!.innerType = bookType;
     };
     const checkAnswers = (): void => {
-      for (let i = 0; i <= bookFields.value.length-1; i++) {
+      for (let i = 0; i <= bookFields.value.length - 1; i++) {
         let currentItem = bookFields.value[i];
         if (currentItem.innerType !== "") {
           if (currentItem.ownType === currentItem.innerType) {
@@ -217,7 +217,6 @@ export default defineComponent({
           } else if (currentItem.ownType !== currentItem.innerType) {
             currentItem.state = "wrong";
           }
-          
         }
       }
     };
@@ -233,6 +232,7 @@ export default defineComponent({
 </script>
 
 <style>
+@import '@/assets/media.css';
 .navbar {
   height: 80px;
   box-shadow: 0px 4px 4px rgba(12, 110, 214, 0.16);
@@ -297,8 +297,6 @@ export default defineComponent({
   grid-row-gap: 12px;
   grid-column-gap: 48px;
 }
-.book__field {
-}
 .book__fields-titles {
   display: grid;
   grid-template-columns: repeat(2, 280px);
@@ -325,4 +323,5 @@ export default defineComponent({
   display: flex;
   align-items: left;
 }
+
 </style>

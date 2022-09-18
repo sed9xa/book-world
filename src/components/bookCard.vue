@@ -36,6 +36,7 @@ export default defineComponent({
   border-radius: 12px;
 }
 .bookworld__card-img {
+  
 }
 .bookworld__card-dots {
   height: 15px;
